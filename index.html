@@ -22,6 +22,7 @@
         position: 'absolute',
         left: x - halfGifWidth,
         top: y - halfGifHeight
+        
       })
       .addTo('body')
   }
@@ -33,8 +34,8 @@
     
     const num = 800
     for (let i = 0; i < num; i++) {
-      const cx = nn.width / 2
-      const cy = nn.height / 2
+      const cx = nn.width / 4
+      const cy = nn.height /4
       const s = 0.05
       const x = cx + Math.cos(i*s)*rad
       const y = cy + Math.sin(i*s)*rad
@@ -43,23 +44,60 @@
       rad += 0.1 
     }
   }
-      
-  function addRadius (e) {
-   rad = e.x
-   const cx = nn.width / 2
-   const cy = nn.height / 2
-   const s = 0.05
-   // const s = e.y*0.05
-   nn.getAll('img').forEach((img, i) => {
-      const x = cx + Math.cos(i*s)*rad - halfGifWidth
-      const y = cy + Math.sin(i*s)*rad - halfGifHeight
+  
+  function updateByTime() {
+  const now = moment()
+  const time = now.seconds() + now.minutes() / 10000
+  
+  rad = 500 
+
+  const cx = nn.width / 2
+  const cy = nn.height / 2
+  const s = time * 0.01
+
+  nn.getAll('img').forEach((img, i) => {
+    const x = cx + Math.cos(i*s) * rad - halfGifWidth
+    const y = cy + Math.sin(i*s) * rad - halfGifHeight
+    img.position(x, y)
+  })
+
+  requestAnimationFrame(updateByTime) // keep looping
+}
+  
+  // function realtimeUpdate (e)
+  // rad = moment().format('h')
+  // const cx = nn.width / 2
+  //  const cy = nn.height / 2
+  //  const s = 0.05
+  //  nn.getAll('img').forEach((img, i) => {
+  //     const x = cx + Math.cos(i*s)*rad - halfGifWidth
+  //     const y = cy + Math.sin(i*s)*rad - halfGifHeight
+  //    img.position(x, y)
      
-      img.position(x, y)
-   })  
-  }
+  //     })  
+  // }
   
-  nn.on('mousemove', addRadius)
   
+  // function addRadius (e) {
+  //  rad = e.x
+  //  const cx = nn.width / 2
+  //  const cy = nn.height / 2
+  //  const s = 0.05
+  //  // const s = e.y*0.05
+  //  nn.getAll('img').forEach((img, i) => {
+  //     const x = cx + Math.cos(i*s)*rad - halfGifWidth
+  //     const y = cy + Math.sin(i*s)*rad - halfGifHeight
+     
+  //     img.position(x, y)
+  //  })  
+  // }
+  
+  nn.on('load', () => {
+  setup()
+  onKawara()
+  updateByTime() // start the animation
+})
+
   
   
   nn.on('load', setup)
