@@ -1,23 +1,33 @@
-<!DOCTYPE html>
-<style>
-  /* netnet default bg */
-  body {
-    margin: 0;
-    background-image: linear-gradient(#515199a8 2px, transparent 1px),
-      linear-gradient(90deg, #515199a8 2px, transparent 1px);
-    background-size: 50px 50px;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-  }
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+<script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+<script>
+/* global nn, moment */
+  
+function onKawara () {
+  nn.get('body').css({
+    background: 'black',
+    height: '100vh',
+    display: 'grid',
+    justifyContent: 'center',
+    alignItems: 'center'
+  })
 
-  body::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(0deg, #c76ebca8, #515199a8);
-  }
-</style>
-    
+  // const dateString = moment().format('MMM DD, YYYY')   
+  
+  const dateString = moment().format('MMMM Do YYYY, h:mm:ss a')
+
+// log(date)
+
+  nn.create('span')
+    .content(dateString)
+    .css({
+      color: 'white',
+      fontSize: '10vw',
+      fontFamily: 'Futura, "Trebuchet MS", Arial, sans-serif'
+    })
+    .addTo('body')
+}
+
+nn.on('load', onKawara)
+
+</script>
