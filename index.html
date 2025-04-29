@@ -49,11 +49,11 @@
   const now = moment()
   const time = now.seconds() + now.minutes() / 10000
   
-  rad = 500 
+  rad = 100
 
   const cx = nn.width / 2
   const cy = nn.height / 2
-  const s = time * 0.01
+  const s = 0.1*time
 
   nn.getAll('img').forEach((img, i) => {
     const x = cx + Math.cos(i*s) * rad - halfGifWidth
@@ -108,9 +108,9 @@
 function onKawara () {
   nn.get('body').css({
     background: 'black',
-    height: '100vh',
+    height: '10vh',
     display: 'grid',
-    justifyContent: 'center',
+    justifyContent: 'left',
     alignItems: 'center'
   })
 
@@ -124,7 +124,7 @@ function onKawara () {
     .content(dateString)
     .css({
       color: 'white',
-      fontSize: '10vw',
+      fontSize: '1vw',
       fontFamily: 'Futura, "Trebuchet MS", Arial, sans-serif'
     })
     .addTo('body')
