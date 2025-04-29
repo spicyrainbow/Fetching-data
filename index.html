@@ -3,6 +3,70 @@
 <script>
 /* global nn, moment */
   
+  
+
+  const GIF = 'lily-flower-small.gif'
+  const COLOR = 'LightBlue'
+  let rad = 0
+  let halfGifWidth, halfGifHeight
+  
+  
+  async function createGif (x, y) {
+    const gif = await nn.loadImage(GIF)
+    halfGifWidth = gif.width / 2
+    halfGifHeight = gif.height / 2 
+    nn.create('img')
+      .set({  src: GIF 
+      })
+      .css({
+        position: 'absolute',
+        left: x - halfGifWidth,
+        top: y - halfGifHeight
+      })
+      .addTo('body')
+  }
+  
+  async function setup () {
+    nn.get('body').css({ backgroundColor: COLOR,
+                       overflow:'hidden'})
+    
+    
+    const num = 800
+    for (let i = 0; i < num; i++) {
+      const cx = nn.width / 2
+      const cy = nn.height / 2
+      const s = 0.05
+      const x = cx + Math.cos(i*s)*rad
+      const y = cy + Math.sin(i*s)*rad
+      await nn.sleep(10)
+      createGif (x, y)
+      rad += 0.1 
+    }
+  }
+      
+  function addRadius (e) {
+   rad = e.x
+   const cx = nn.width / 2
+   const cy = nn.height / 2
+   const s = 0.05
+   // const s = e.y*0.05
+   nn.getAll('img').forEach((img, i) => {
+      const x = cx + Math.cos(i*s)*rad - halfGifWidth
+      const y = cy + Math.sin(i*s)*rad - halfGifHeight
+     
+      img.position(x, y)
+   })  
+  }
+  
+  nn.on('mousemove', addRadius)
+  
+  
+  
+  nn.on('load', setup)
+  
+
+
+
 function onKawara () {
   nn.get('body').css({
     background: 'black',
